@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF Diamonds Shop - Trabalho Escolar</title>
+    <!-- Tailwind CSS CDN para estilização rápida e moderna -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons para ícones modernos -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Estilos Personalizados -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Cabeçalho / Navbar -->
+    <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-red-600 p-2 rounded-lg shadow-lg">
+                    <i data-lucide="gem" class="w-6 h-6 text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold font-gaming tracking-wider text-white uppercase leading-none">
+                        FF <span class="text-red-500">DIAMONDS</span>
+                    </h1>
+                    <span class="text-xs text-slate-400">Trabalho Acadêmico / Demonstrativo</span>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-300">
+                <a href="#pacotes" class="hover:text-red-400 transition-colors">Pacotes</a>
+                <a href="#como-funciona" class="hover:text-red-400 transition-colors">Como Funciona</a>
+                <span class="bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 text-xs px-2.5 py-1 rounded-full font-semibold">
+                    Simulador Ativo
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Banner Principal -->
+    <section class="relative bg-gradient-to-r from-red-950/40 via-slate-900 to-slate-900 border-b border-slate-800 py-10 px-4">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="space-y-3 text-center md:text-left">
+                <span class="text-red-500 font-bold uppercase tracking-wider text-xs bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20">
+                    Recarga Instantânea Simulada
+                </span>
+                <h2 class="text-3xl md:text-5xl font-extrabold font-gaming text-white uppercase tracking-wide">
+                    Adquira Diamantes para o seu ID
+                </h2>
+                <p class="text-slate-400 max-w-lg text-sm md:text-base">
+                    Selecione a quantidade de diamantes desejada, informe seu ID do jogador e finalize o pedido para testar o sistema da loja.
+                </p>
+            </div>
+            <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700/50 flex items-center space-x-4">
+                <i data-lucide="shield-check" class="w-10 h-10 text-emerald-400"></i>
+                <div>
+                    <h3 class="text-sm font-bold text-white">Ambiente Seguro de Testes</h3>
+                    <p class="text-xs text-slate-400">Nenhum pagamento real será processado.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conteúdo Principal / Loja -->
+    <main class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Coluna de Seleção de Pacotes -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <h3 id="pacotes" class="text-xl font-bold font-gaming text-white uppercase tracking-wider flex items-center gap-2">
+                        <i data-lucide="package" class="text-red-500 w-5 h-5"></i> 1. Escolha o Pacote
+                    </h3>
+                    <span class="text-xs text-slate-400">Valores demonstrativos</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="packages-container">
+                    <!-- Pacotes injetados via JavaScript -->
+                </div>
+            </div>
+
+            <!-- Coluna de Identificação e Resumo do Pedido -->
+            <div class="space-y-6">
+                <!-- Passo 2: ID do Jogador -->
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl space-y-4">
+                    <h3 class="text-xl font-bold font-gaming text-white uppercase tracking-wider flex items-center gap-2 border-b border-slate-800 pb-2">
+                        <i data-lucide="user-check" class="text-yellow-500 w-5 h-5"></i> 2. ID do Jogador
+                    </h3>
+                    <div>
+                        <label for="player-id" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+                            Insira o ID do Free Fire
+                        </label>
+                        <div class="relative">
+                            <input type="text" id="player-id" placeholder="Ex: 123456789" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm">
+                            <button type="button" onclick="validateId()" class="absolute right-2 top-2 bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 font-semibold px-2.5 py-1 rounded transition-colors">
+                                Validar
+                            </button>
+                        </div>
+                        <p id="id-feedback" class="text-xs mt-2 hidden"></p>
+                    </div>
+                </div>
+
+                <!-- Passo 3: Resumo do Pedido -->
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl space-y-4">
+                    <h3 class="text-xl font-bold font-gaming text-white uppercase tracking-wider flex items-center gap-2 border-b border-slate-800 pb-2">
+                        <i data-lucide="shopping-cart" class="text-red-500 w-5 h-5"></i> Resumo do Pedido
+                    </h3>
+                    
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between text-slate-400">
+                            <span>Pacote selecionado:</span>
+                            <span id="summary-package" class="font-semibold text-white">Nenhum</span>
+                        </div>
+                        <div class="flex justify-between text-slate-400">
+                            <span>Bônus:</span>
+                            <span id="summary-bonus" class="font-semibold text-yellow-400">+0 Dima</span>
+                        </div>
+                        <div class="flex justify-between text-slate-400">
+                            <span>ID do Jogador:</span>
+                            <span id="summary-id" class="font-mono text-slate-300">Não informado</span>
+                        </div>
+                        <div class="border-t border-slate-800 pt-3 flex justify-between items-center">
+                            <span class="font-bold text-white text-base">Total:</span>
+                            <span id="summary-total" class="text-2xl font-bold text-emerald-400 font-gaming">R$ 0,00</span>
+                        </div>
+                    </div>
+
+                    <button id="checkout-btn" onclick="processCheckout()" disabled class="w-full bg-slate-800 text-slate-500 font-bold py-3 rounded-lg text-sm tracking-wider uppercase cursor-not-allowed transition-all duration-200 hover:shadow-lg">
+                        Finalizar Pedido
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Modal de Confirmação (Checkout Fictício) -->
+    <div id="checkout-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-6 space-y-5 text-center relative shadow-2xl">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div class="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center mx-auto text-emerald-400">
+                <i data-lucide="check-circle-2" class="w-10 h-10"></i>
+            </div>
+
+            <div>
+                <h3 class="text-2xl font-bold font-gaming text-white uppercase">Pedido Simulado com Sucesso!</h3>
+                <p class="text-xs text-slate-400 mt-1">Este é um projeto de simulação escolar.</p>
+            </div>
+
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2 text-left text-sm">
+                <div class="flex justify-between">
+                    <span class="text-slate-400">ID de Destino:</span>
+                    <span id="modal-id" class="font-mono text-white font-bold"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-400">Quantidade:</span>
+                    <span id="modal-amount" class="text-yellow-400 font-semibold"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-400">Valor Total:</span>
+                    <span id="modal-total" class="text-emerald-400 font-bold"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-400">Status:</span>
+                    <span class="text-emerald-400 font-medium">Aprovado (Simulação)</span>
+                </div>
+            </div>
+
+            <button onclick="closeModal()" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-2.5 rounded-lg text-sm uppercase transition-colors">
+                Concluir
+            </button>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-6 text-center text-xs text-slate-500 mt-12">
+        <div class="max-w-6xl mx-auto px-4 space-y-2">
+            <p>Projeto acadêmico desenvolvido para fins de demonstração escolar.</p>
+            <p>Garena Free Fire é uma marca registrada de seus respectivos proprietários.</p>
+        </div>
+    </footer>
+
+    <!-- Lógica JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Inter:wght@400;600;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0b0e14;
+    color: #e2e8f0;
+}
+
+.font-gaming {
+    font-family: 'Teko', sans-serif;
+    letter-spacing: 1px;
+}
+
+/* Efeitos de gradiente e brilho neon */
+.neon-border-red {
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+}
+
+.neon-border-yellow {
+    box-shadow: 0 0 15px rgba(234, 179, 8, 0.3);
+}
+
+.card-package {
+    transition: all 0.25s ease-in-out;
+}
+
+.card-package:hover {
+    transform: translateY(-4px);
+}
+
+.card-selected {
+    border-color: #ef4444 !important;
+    background: linear-gradient(145deg, rgba(239, 68, 68, 0.15), rgba(15, 23, 42, 0.8)) !important;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+}
