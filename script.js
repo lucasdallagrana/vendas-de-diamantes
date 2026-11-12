@@ -1,22 +1,66 @@
-// Dados dos Pacotes de Diamantes
-const packages = [
-    { id: 1, amount: 100, bonus: 10, price: 4.50, popular: false },
-    { id: 2, amount: 310, bonus: 31, price: 13.00, popular: false },
-    { id: 3, amount: 520, bonus: 52, price: 20.90, popular: true },
-    { id: 4, amount: 1060, bonus: 106, price: 41.50, popular: false },
-    { id: 5, amount: 2180, bonus: 218, price: 87.00, popular: false }
-];
+// Catálogo de Pacotes separado por categoria
+const catalog = {
+    diamantes: [
+        { id: 'd1', name: '100 Diamantes', bonusText: '+10 Bônus', price: 4.50, popular: false, icon: 'gem' },
+        { id: 'd2', name: '310 Diamantes', bonusText: '+31 Bônus', price: 13.00, popular: false, icon: 'gem' },
+        { id: 'd3', name: '520 Diamantes', bonusText: '+52 Bônus', price: 20.90, popular: true, icon: 'gem' },
+        { id: 'd4', name: '1060 Diamantes', bonusText: '+106 Bônus', price: 41.50, popular: false, icon: 'gem' },
+        { id: 'd5', name: '2180 Diamantes', bonusText: '+218 Bônus', price: 87.00, popular: false, icon: 'gem' }
+    ],
+    passes: [
+        { id: 'p1', name: 'Assinatura Semanal', bonusText: '450 Diamantes no total', price: 8.90, popular: false, icon: 'calendar' },
+        { id: 'p2', name: 'Passe Booyah Premium', bonusText: 'Recompensas exclusivas', price: 14.90, popular: true, icon: 'crown' },
+        { id: 'p3', name: 'Assinatura Mensal', bonusText: '2.600 Diamantes no total', price: 39.90, popular: false, icon: 'award' },
+        { id: 'p4', name: 'Trilha Evolução (7 dias)', bonusText: 'Tokens + Diamantes', price: 6.50, popular: false, icon: 'zap' }
+    ]
+};
 
+let currentCategory = null;
 let selectedPackage = null;
 let isIdValid = false;
 
-// Renderiza os pacotes dinamicamente no HTML
+// Abre a lista de pacotes da categoria clicada
+function openCategory(category) {
+    currentCategory = category;
+    document.getElementById('category-selector').classList.add('hidden');
+    document.getElementById('packages-container').classList.remove('hidden');
+    document.getElementById('back-category-btn').classList.remove('hidden');
+
+    const title = document.getElementById('section-title');
+    if (category === 'diamantes') {
+        title.innerHTML = `<i data-lucide="gem" class="text-red-500 w-5 h-5"></i> 1. Escolha o Pacote de Diamantes`;
+    } else {
+        title.innerHTML = `<i data-lucide="crown" class="text-yellow-500 w-5 h-5"></i> 1. Escolha o Passe`;
+    }
+
+    renderPackages();
+}
+
+// Volta para as 2 opções principais (Diamantes e Passes)
+function showCategories() {
+    currentCategory = null;
+    document.getElementById('category-selector').classList.remove('hidden');
+    document.getElementById('packages-container').classList.add('hidden');
+    document.getElementById('back-category-btn').classList.add('hidden');
+
+    const title = document.getElementById('section-title');
+    title.innerHTML = `<i data-lucide="layers" class="text-red-500 w-5 h-5"></i> 1. Escolha a Categoria`;
+
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+}
+
+// Renderiza os itens da categoria selecionada
 function renderPackages() {
+    if (!currentCategory) return;
+
     const container = document.getElementById('packages-container');
     container.innerHTML = '';
 
-    packages.forEach(pkg => {
+    catalog[currentCategory].forEach(pkg => {
         const isSelected = selectedPackage && selectedPackage.id === pkg.id;
+        const isPass = currentCategory === 'passes';
         
         const card = document.createElement('div');
         card.className = `card-package cursor-pointer bg-slate-900 border rounded-xl p-4 flex justify-between items-center relative ${
@@ -31,14 +75,14 @@ function renderPackages() {
                 </span>
             ` : ''}
             <div class="flex items-center space-x-3">
-                <div class="bg-red-500/10 p-2.5 rounded-lg border border-red-500/20 text-red-500">
-                    <i data-lucide="gem" class="w-6 h-6"></i>
+                <div class="${isPass ? 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400' : 'bg-red-500/10 border-red-500/20 text-red-500'} p-2.5 rounded-lg border">
+                    <i data-lucide="${pkg.icon}" class="w-6 h-6"></i>
                 </div>
                 <div>
                     <div class="flex items-center gap-1.5">
-                        <span class="text-xl font-bold font-gaming text-white tracking-wide">${pkg.amount} Diamantes</span>
+                        <span class="text-xl font-bold font-gaming text-white tracking-wide">${pkg.name}</span>
                     </div>
-                    <span class="text-xs text-yellow-400 font-semibold">+${pkg.bonus} Bônus</span>
+                    <span class="text-xs text-yellow-400 font-semibold">${pkg.bonusText}</span>
                 </div>
             </div>
             <div class="text-right">
@@ -49,13 +93,12 @@ function renderPackages() {
         container.appendChild(card);
     });
 
-    // Reinicializar ícones do Lucide após alterar o DOM
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
 }
 
-// Seleciona um pacote
+// Seleciona um pacote ou passe
 function selectPackage(pkg) {
     selectedPackage = pkg;
     renderPackages();
@@ -68,7 +111,6 @@ function validateId() {
     const feedback = document.getElementById('id-feedback');
     const idValue = input.value.trim();
 
-    // Validação simples: apenas números e comprimento de 8 a 12 dígitos
     const isValid = /^\d{8,12}$/.test(idValue);
 
     feedback.classList.remove('hidden', 'text-emerald-400', 'text-red-400');
@@ -96,18 +138,17 @@ function updateSummary() {
     const idInput = document.getElementById('player-id').value.trim();
 
     if (selectedPackage) {
-        summaryPkg.textContent = `${selectedPackage.amount} Diamantes`;
-        summaryBonus.textContent = `+${selectedPackage.bonus} Dima`;
+        summaryPkg.textContent = selectedPackage.name;
+        summaryBonus.textContent = selectedPackage.bonusText;
         summaryTotal.textContent = `R$ ${selectedPackage.price.toFixed(2).replace('.', ',')}`;
     } else {
         summaryPkg.textContent = 'Nenhum';
-        summaryBonus.textContent = '+0 Dima';
+        summaryBonus.textContent = '-';
         summaryTotal.textContent = 'R$ 0,00';
     }
 
     summaryId.textContent = isIdValid ? idInput : (idInput ? 'Pendente de validação' : 'Não informado');
 
-    // Habilitar botão apenas se pacote estiver selecionado e ID for válido
     if (selectedPackage && isIdValid) {
         checkoutBtn.disabled = false;
         checkoutBtn.className = "w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3 rounded-lg text-sm tracking-wider uppercase shadow-lg shadow-red-600/30 transition-all duration-200 cursor-pointer";
@@ -123,7 +164,7 @@ function processCheckout() {
 
     const idInput = document.getElementById('player-id').value.trim();
     document.getElementById('modal-id').textContent = idInput;
-    document.getElementById('modal-amount').textContent = `${selectedPackage.amount} + ${selectedPackage.bonus} (Bônus) Diamantes`;
+    document.getElementById('modal-amount').textContent = `${selectedPackage.name} (${selectedPackage.bonusText})`;
     document.getElementById('modal-total').textContent = `R$ ${selectedPackage.price.toFixed(2).replace('.', ',')}`;
 
     document.getElementById('checkout-modal').classList.remove('hidden');
@@ -136,7 +177,7 @@ function closeModal() {
     isIdValid = false;
     document.getElementById('player-id').value = '';
     document.getElementById('id-feedback').classList.add('hidden');
-    renderPackages();
+    showCategories();
     updateSummary();
 }
 
@@ -147,9 +188,8 @@ document.getElementById('player-id').addEventListener('input', () => {
     updateSummary();
 });
 
-// Inicialização
+// Inicialização dos ícones na tela inicial
 window.onload = function() {
-    renderPackages();
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
