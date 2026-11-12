@@ -11,7 +11,7 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between bg-[#0b0e14] text-slate-200">
 
-    <!-- Cabeçalho / Navbar -->
+    <!-- Cabeçalho / Navbar (Limpo, sem os links extras) -->
     <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
         <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3">
@@ -26,10 +26,8 @@
                 </div>
             </div>
             
-            <div class="flex items-center space-x-4 md:space-x-6 text-sm font-medium text-slate-300">
-                <a href="pacotes.html" target="_blank" class="hover:text-red-400 transition-colors">Pacotes</a>
-                <a href="como-funciona.html" target="_blank" class="hover:text-red-400 transition-colors">Como Funciona</a>
-                <span class="hidden sm:inline-block bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 text-xs px-2.5 py-1 rounded-full font-semibold">
+            <div>
+                <span class="bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 text-xs px-2.5 py-1 rounded-full font-semibold">
                     Simulador Ativo
                 </span>
             </div>
@@ -44,10 +42,10 @@
                     Recarga Instantânea Simulada
                 </span>
                 <h2 class="text-3xl md:text-5xl font-extrabold font-gaming text-white uppercase tracking-wide">
-                    Adquira Diamantes para o seu ID
+                    Adquira Diamantes e Passes
                 </h2>
                 <p class="text-slate-400 max-w-lg text-sm md:text-base">
-                    Selecione a quantidade de diamantes desejada, informe seu ID do jogador e finalize o pedido para testar o sistema da loja.
+                    Escolha a categoria desejada, selecione seu pacote, informe seu ID do jogador e finalize o pedido.
                 </p>
             </div>
             <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700/50 flex items-center space-x-4">
@@ -64,17 +62,51 @@
     <main class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            <!-- Coluna de Seleção de Pacotes -->
+            <!-- Coluna Central: Categorias e Pacotes -->
             <div class="lg:col-span-2 space-y-6">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <h3 id="pacotes" class="text-xl font-bold font-gaming text-white uppercase tracking-wider flex items-center gap-2">
-                        <i data-lucide="package" class="text-red-500 w-5 h-5"></i> 1. Escolha o Pacote
+                    <h3 id="section-title" class="text-xl font-bold font-gaming text-white uppercase tracking-wider flex items-center gap-2">
+                        <i data-lucide="layers" class="text-red-500 w-5 h-5"></i> 1. Escolha a Categoria
                     </h3>
-                    <span class="text-xs text-slate-400">Valores demonstrativos</span>
+                    <button id="back-category-btn" onclick="showCategories()" class="hidden text-xs font-semibold text-red-400 hover:text-red-300 flex items-center gap-1 transition-colors cursor-pointer">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar para Categorias
+                    </button>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="packages-container">
-                    <!-- Pacotes carregados automaticamente -->
+                <!-- TELA INICIAL DO MEIO: 2 Opções (Diamantes ou Passes) -->
+                <div id="category-selector" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <!-- Opção 1: Diamantes -->
+                    <div onclick="openCategory('diamantes')" class="card-package cursor-pointer bg-slate-900 border border-slate-800 hover:border-red-500 rounded-2xl p-6 flex flex-col items-center text-center space-y-4 shadow-xl group">
+                        <div class="w-16 h-16 bg-red-500/10 border border-red-500/30 rounded-2xl flex items-center justify-center text-red-500 group-hover:scale-110 transition-transform">
+                            <i data-lucide="gem" class="w-8 h-8"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-bold font-gaming text-white uppercase tracking-wide">Diamantes</h4>
+                            <p class="text-xs text-slate-400 mt-1">Pacotes de recarga com bônus extras</p>
+                        </div>
+                        <span class="text-xs font-bold text-red-400 uppercase tracking-wider flex items-center gap-1">
+                            Ver pacotes <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </span>
+                    </div>
+
+                    <!-- Opção 2: Passes -->
+                    <div onclick="openCategory('passes')" class="card-package cursor-pointer bg-slate-900 border border-slate-800 hover:border-yellow-500 rounded-2xl p-6 flex flex-col items-center text-center space-y-4 shadow-xl group">
+                        <div class="w-16 h-16 bg-yellow-500/10 border border-yellow-500/30 rounded-2xl flex items-center justify-center text-yellow-400 group-hover:scale-110 transition-transform">
+                            <i data-lucide="crown" class="w-8 h-8"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-bold font-gaming text-white uppercase tracking-wide">Passes & Assinaturas</h4>
+                            <p class="text-xs text-slate-400 mt-1">Passe Booyah, Assinatura Semanal e Mensal</p>
+                        </div>
+                        <span class="text-xs font-bold text-yellow-400 uppercase tracking-wider flex items-center gap-1">
+                            Ver passes <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- LISTA DE PACOTES (Fica oculta até clicar em Diamantes ou Passes) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 hidden" id="packages-container">
+                    <!-- Pacotes injetados via JavaScript -->
                 </div>
             </div>
 
@@ -107,12 +139,12 @@
                     
                     <div class="space-y-3 text-sm">
                         <div class="flex justify-between text-slate-400">
-                            <span>Pacote selecionado:</span>
+                            <span>Item selecionado:</span>
                             <span id="summary-package" class="font-semibold text-white">Nenhum</span>
                         </div>
                         <div class="flex justify-between text-slate-400">
-                            <span>Bônus:</span>
-                            <span id="summary-bonus" class="font-semibold text-yellow-400">+0 Dima</span>
+                            <span>Bônus / Benefício:</span>
+                            <span id="summary-bonus" class="font-semibold text-yellow-400">-</span>
                         </div>
                         <div class="flex justify-between text-slate-400">
                             <span>ID do Jogador:</span>
@@ -155,7 +187,7 @@
                     <span id="modal-id" class="font-mono text-white font-bold"></span>
                 </div>
                 <div class="flex justify-between">
-                    <span class="text-slate-400">Quantidade:</span>
+                    <span class="text-slate-400">Item:</span>
                     <span id="modal-amount" class="text-yellow-400 font-semibold"></span>
                 </div>
                 <div class="flex justify-between">
@@ -182,152 +214,69 @@
         </div>
     </footer>
 
-    <!-- Script Integrado (Garante que os pacotes sempre apareçam) -->
+    <!-- Lógica JavaScript -->
     <script>
-        const packages = [
-            { id: 1, amount: 100, bonus: 10, price: 4.50, popular: false },
-            { id: 2, amount: 310, bonus: 31, price: 13.00, popular: false },
-            { id: 3, amount: 520, bonus: 52, price: 20.90, popular: true },
-            { id: 4, amount: 1060, bonus: 106, price: 41.50, popular: false },
-            { id: 5, amount: 2180, bonus: 218, price: 87.00, popular: false }
-        ];
+        // Pacotes separados por categoria
+        const catalog = {
+            diamantes: [
+                { id: 'd1', name: '100 Diamantes', bonusText: '+10 Bônus', price: 4.50, popular: false, icon: 'gem' },
+                { id: 'd2', name: '310 Diamantes', bonusText: '+31 Bônus', price: 13.00, popular: false, icon: 'gem' },
+                { id: 'd3', name: '520 Diamantes', bonusText: '+52 Bônus', price: 20.90, popular: true, icon: 'gem' },
+                { id: 'd4', name: '1060 Diamantes', bonusText: '+106 Bônus', price: 41.50, popular: false, icon: 'gem' },
+                { id: 'd5', name: '2180 Diamantes', bonusText: '+218 Bônus', price: 87.00, popular: false, icon: 'gem' }
+            ],
+            passes: [
+                { id: 'p1', name: 'Assinatura Semanal', bonusText: '450 Diamantes no total', price: 8.90, popular: false, icon: 'calendar' },
+                { id: 'p2', name: 'Passe Booyah Premium', bonusText: 'Recompensas exclusivas', price: 14.90, popular: true, icon: 'crown' },
+                { id: 'p3', name: 'Assinatura Mensal', bonusText: '2.600 Diamantes no total', price: 39.90, popular: false, icon: 'award' },
+                { id: 'p4', name: 'Trilha Evolução (7 dias)', bonusText: 'Tokens + Diamantes', price: 6.50, popular: false, icon: 'zap' }
+            ]
+        };
 
+        let currentCategory = null;
         let selectedPackage = null;
         let isIdValid = false;
 
+        // Abre a lista de pacotes da categoria clicada
+        function openCategory(category) {
+            currentCategory = category;
+            document.getElementById('category-selector').classList.add('hidden');
+            document.getElementById('packages-container').classList.remove('hidden');
+            document.getElementById('back-category-btn').classList.remove('hidden');
+
+            const title = document.getElementById('section-title');
+            if (category === 'diamantes') {
+                title.innerHTML = `<i data-lucide="gem" class="text-red-500 w-5 h-5"></i> 1. Escolha o Pacote de Diamantes`;
+            } else {
+                title.innerHTML = `<i data-lucide="crown" class="text-yellow-500 w-5 h-5"></i> 1. Escolha o Passe`;
+            }
+
+            renderPackages();
+        }
+
+        // Volta para as 2 opções principais (Diamantes e Passes)
+        function showCategories() {
+            currentCategory = null;
+            document.getElementById('category-selector').classList.remove('hidden');
+            document.getElementById('packages-container').classList.add('hidden');
+            document.getElementById('back-category-btn').classList.add('hidden');
+
+            const title = document.getElementById('section-title');
+            title.innerHTML = `<i data-lucide="layers" class="text-red-500 w-5 h-5"></i> 1. Escolha a Categoria`;
+
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        // Renderiza os itens da categoria selecionada
         function renderPackages() {
+            if (!currentCategory) return;
+
             const container = document.getElementById('packages-container');
             container.innerHTML = '';
 
-            packages.forEach(pkg => {
+            catalog[currentCategory].forEach(pkg => {
                 const isSelected = selectedPackage && selectedPackage.id === pkg.id;
+                const isPass = currentCategory === 'passes';
                 
                 const card = document.createElement('div');
-                card.className = `card-package cursor-pointer bg-slate-900 border rounded-xl p-4 flex justify-between items-center relative ${
-                    isSelected ? 'card-selected' : 'border-slate-800 hover:border-slate-700'
-                }`;
-                card.onclick = () => selectPackage(pkg);
-
-                card.innerHTML = `
-                    ${pkg.popular ? `
-                        <span class="absolute -top-2.5 left-4 bg-yellow-500 text-black text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                            Mais Popular
-                        </span>
-                    ` : ''}
-                    <div class="flex items-center space-x-3">
-                        <div class="bg-red-500/10 p-2.5 rounded-lg border border-red-500/20 text-red-500">
-                            <i data-lucide="gem" class="w-6 h-6"></i>
-                        </div>
-                        <div>
-                            <div class="flex items-center gap-1.5">
-                                <span class="text-xl font-bold font-gaming text-white tracking-wide">${pkg.amount} Diamantes</span>
-                            </div>
-                            <span class="text-xs text-yellow-400 font-semibold">+${pkg.bonus} Bônus</span>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-lg font-bold text-emerald-400 font-gaming">R$ ${pkg.price.toFixed(2).replace('.', ',')}</span>
-                    </div>
-                `;
-
-                container.appendChild(card);
-            });
-
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-        }
-
-        function selectPackage(pkg) {
-            selectedPackage = pkg;
-            renderPackages();
-            updateSummary();
-        }
-
-        function validateId() {
-            const input = document.getElementById('player-id');
-            const feedback = document.getElementById('id-feedback');
-            const idValue = input.value.trim();
-
-            const isValid = /^\d{8,12}$/.test(idValue);
-
-            feedback.classList.remove('hidden', 'text-emerald-400', 'text-red-400');
-
-            if (isValid) {
-                feedback.textContent = '✓ ID validado com sucesso!';
-                feedback.classList.add('text-emerald-400');
-                isIdValid = true;
-            } else {
-                feedback.textContent = '✕ Digite um ID válido (8 a 12 números).';
-                feedback.classList.add('text-red-400');
-                isIdValid = false;
-            }
-
-            updateSummary();
-        }
-
-        function updateSummary() {
-            const summaryPkg = document.getElementById('summary-package');
-            const summaryBonus = document.getElementById('summary-bonus');
-            const summaryId = document.getElementById('summary-id');
-            const summaryTotal = document.getElementById('summary-total');
-            const checkoutBtn = document.getElementById('checkout-btn');
-            const idInput = document.getElementById('player-id').value.trim();
-
-            if (selectedPackage) {
-                summaryPkg.textContent = `${selectedPackage.amount} Diamantes`;
-                summaryBonus.textContent = `+${selectedPackage.bonus} Dima`;
-                summaryTotal.textContent = `R$ ${selectedPackage.price.toFixed(2).replace('.', ',')}`;
-            } else {
-                summaryPkg.textContent = 'Nenhum';
-                summaryBonus.textContent = '+0 Dima';
-                summaryTotal.textContent = 'R$ 0,00';
-            }
-
-            summaryId.textContent = isIdValid ? idInput : (idInput ? 'Pendente de validação' : 'Não informado');
-
-            if (selectedPackage && isIdValid) {
-                checkoutBtn.disabled = false;
-                checkoutBtn.className = "w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3 rounded-lg text-sm tracking-wider uppercase shadow-lg shadow-red-600/30 transition-all duration-200 cursor-pointer";
-            } else {
-                checkoutBtn.disabled = true;
-                checkoutBtn.className = "w-full bg-slate-800 text-slate-500 font-bold py-3 rounded-lg text-sm tracking-wider uppercase cursor-not-allowed transition-all duration-200";
-            }
-        }
-
-        function processCheckout() {
-            if (!selectedPackage || !isIdValid) return;
-
-            const idInput = document.getElementById('player-id').value.trim();
-            document.getElementById('modal-id').textContent = idInput;
-            document.getElementById('modal-amount').textContent = `${selectedPackage.amount} + ${selectedPackage.bonus} (Bônus) Diamantes`;
-            document.getElementById('modal-total').textContent = `R$ ${selectedPackage.price.toFixed(2).replace('.', ',')}`;
-
-            document.getElementById('checkout-modal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('checkout-modal').classList.add('hidden');
-            selectedPackage = null;
-            isIdValid = false;
-            document.getElementById('player-id').value = '';
-            document.getElementById('id-feedback').classList.add('hidden');
-            renderPackages();
-            updateSummary();
-        }
-
-        document.getElementById('player-id').addEventListener('input', () => {
-            isIdValid = false;
-            document.getElementById('id-feedback').classList.add('hidden');
-            updateSummary();
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            renderPackages();
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-        });
-    </script>
-</body>
-</html>
+                card.className = `card-package cursor-pointer bg-slate
