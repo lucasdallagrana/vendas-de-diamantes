@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAbFBMVEX//////P3++Pj5zs/+9PX85eb1sbPwgobsaW397+/61dfxjJHpTlTlJC3lGyXsYGX1qq73xsjjBRTjEBrmLDPoR03nMjvoPEPudHn0pajrW2D3wcP74OH86uv2u730nKDxlZjqVVviAADoOkGy/nmEAAAA3klEQVR4AdVRRYLEIBDEozjEm4n8/43rFrvv1LWlDP0H4NsJoZRdDjgVWS6Kq2dlVUuljeX8NMZCOh/qqHzTdnZPy3rpZByi9N55P4wTABTfK6ltOjE+8rbOh8b7oCtD4WuIJ0thmutFTHyy1dLqNO1El4NvLWbAEAEOe1YSXTC2qrohT+9HjPwZPlalu40iNOUuxKWHv1a0a+dFJYQQbbzLyM5L7Yak1w5/DDtAO+SuLumDIoR7H0u0x+iC+CikrF11CtCEmApSiNoPiZ2Tz+Ki66WyP7nt58ABPTFeAX6jDiwS/Fa1AAAAAElFTkSuQmCC">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FF Diamonds Shop - Trabalho Escolar</title>
+    <!-- Tailwind CSS CDN para estilização rápida e moderna -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons para ícones modernos -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Estilos Personalizados -->
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="min-h-screen flex flex-col justify-between bg-[#0b0e14] text-slate-200">
+<body class="min-h-screen flex flex-col justify-between">
 
     <!-- Cabeçalho / Navbar -->
     <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
@@ -26,7 +28,9 @@
                 </div>
             </div>
             
-            <div>
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-300">
+                <a href="#pacotes" class="hover:text-red-400 transition-colors">Pacotes</a>
+                <a href="#como-funciona" class="hover:text-red-400 transition-colors">Como Funciona</a>
                 <span class="bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 text-xs px-2.5 py-1 rounded-full font-semibold">
                     Simulador Ativo
                 </span>
@@ -42,10 +46,10 @@
                     Recarga Instantânea Simulada
                 </span>
                 <h2 class="text-3xl md:text-5xl font-extrabold font-gaming text-white uppercase tracking-wide">
-                    Adquira Diamantes e Passes
+                    Adquira Diamantes para o seu ID
                 </h2>
                 <p class="text-slate-400 max-w-lg text-sm md:text-base">
-                    Escolha a categoria desejada, selecione seu pacote, informe seu ID do jogador e finalize o pedido.
+                    Selecione a quantidade de diamantes desejada, informe seu ID do jogador e finalize o pedido para testar o sistema da loja.
                 </p>
             </div>
             <div class="bg-slate-800/60 p-4 rounded-xl border border-slate-700/50 flex items-center space-x-4">
@@ -62,52 +66,23 @@
     <main class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            <!-- Coluna Central: Categorias e Pacotes -->
+            <!-- Coluna de Seleção de Pacotes -->
             <div class="lg:col-span-2 space-y-6">
                 <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <h3 id="section-title" class="text-xl font-bold font-gaming text-white uppercase tracking-wider flex items-center gap-2">
-                        <i data-lucide="layers" class="text-red-500 w-5 h-5"></i> 1. Escolha a Categoria
+                    <h3 id="pacotes" class="text-xl font-bold font-gaming text-white uppercase tracking-wider flex items-center gap-2">
+                        <i data-lucide="package" class="text-red-500 w-5 h-5"></i> 1. Escolha o Pacote
                     </h3>
-                    <button id="back-category-btn" onclick="showCategories()" class="hidden text-xs font-semibold text-red-400 hover:text-red-300 flex items-center gap-1 transition-colors cursor-pointer">
-                        <i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar para Categorias
-                    </button>
+                    <span class="text-xs text-slate-400">Valores demonstrativos</span>
                 </div>
 
-                <!-- TELA INICIAL DO MEIO: 2 Opções -->
-                <div id="category-selector" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div onclick="openCategory('diamantes')" class="card-package cursor-pointer bg-slate-900 border border-slate-800 hover:border-red-500 rounded-2xl p-6 flex flex-col items-center text-center space-y-4 shadow-xl group">
-                        <div class="w-16 h-16 bg-red-500/10 border border-red-500/30 rounded-2xl flex items-center justify-center text-red-500 group-hover:scale-110 transition-transform">
-                            <i data-lucide="gem" class="w-8 h-8"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-2xl font-bold font-gaming text-white uppercase tracking-wide">Diamantes</h4>
-                            <p class="text-xs text-slate-400 mt-1">Pacotes de recarga com bônus extras</p>
-                        </div>
-                        <span class="text-xs font-bold text-red-400 uppercase tracking-wider flex items-center gap-1">
-                            Ver pacotes <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                        </span>
-                    </div>
-
-                    <div onclick="openCategory('passes')" class="card-package cursor-pointer bg-slate-900 border border-slate-800 hover:border-yellow-500 rounded-2xl p-6 flex flex-col items-center text-center space-y-4 shadow-xl group">
-                        <div class="w-16 h-16 bg-yellow-500/10 border border-yellow-500/30 rounded-2xl flex items-center justify-center text-yellow-400 group-hover:scale-110 transition-transform">
-                            <i data-lucide="crown" class="w-8 h-8"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-2xl font-bold font-gaming text-white uppercase tracking-wide">Passes & Assinaturas</h4>
-                            <p class="text-xs text-slate-400 mt-1">Passe Booyah, Assinatura Semanal e Mensal</p>
-                        </div>
-                        <span class="text-xs font-bold text-yellow-400 uppercase tracking-wider flex items-center gap-1">
-                            Ver passes <i data-lucide="chevron-right" class="w-4 h-4"></i>
-                        </span>
-                    </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="packages-container">
+                    <!-- Pacotes injetados via JavaScript -->
                 </div>
-
-                <!-- LISTA DE PACOTES -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 hidden" id="packages-container"></div>
             </div>
 
-            <!-- Coluna da Direita: ID e Resumo -->
+            <!-- Coluna de Identificação e Resumo do Pedido -->
             <div class="space-y-6">
+                <!-- Passo 2: ID do Jogador -->
                 <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl space-y-4">
                     <h3 class="text-xl font-bold font-gaming text-white uppercase tracking-wider flex items-center gap-2 border-b border-slate-800 pb-2">
                         <i data-lucide="user-check" class="text-yellow-500 w-5 h-5"></i> 2. ID do Jogador
@@ -117,4 +92,99 @@
                             Insira o ID do Free Fire
                         </label>
                         <div class="relative">
-                            <input type="text" id="player-id" placeholder="Ex: 123456789" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py
+                            <input type="text" id="player-id" placeholder="Ex: 123456789" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 text-sm">
+                            <button type="button" onclick="validateId()" class="absolute right-2 top-2 bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 font-semibold px-2.5 py-1 rounded transition-colors">
+                                Validar
+                            </button>
+                        </div>
+                        <p id="id-feedback" class="text-xs mt-2 hidden"></p>
+                    </div>
+                </div>
+
+                <!-- Passo 3: Resumo do Pedido -->
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-xl space-y-4">
+                    <h3 class="text-xl font-bold font-gaming text-white uppercase tracking-wider flex items-center gap-2 border-b border-slate-800 pb-2">
+                        <i data-lucide="shopping-cart" class="text-red-500 w-5 h-5"></i> Resumo do Pedido
+                    </h3>
+                    
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between text-slate-400">
+                            <span>Pacote selecionado:</span>
+                            <span id="summary-package" class="font-semibold text-white">Nenhum</span>
+                        </div>
+                        <div class="flex justify-between text-slate-400">
+                            <span>Bônus:</span>
+                            <span id="summary-bonus" class="font-semibold text-yellow-400">+0 Dima</span>
+                        </div>
+                        <div class="flex justify-between text-slate-400">
+                            <span>ID do Jogador:</span>
+                            <span id="summary-id" class="font-mono text-slate-300">Não informado</span>
+                        </div>
+                        <div class="border-t border-slate-800 pt-3 flex justify-between items-center">
+                            <span class="font-bold text-white text-base">Total:</span>
+                            <span id="summary-total" class="text-2xl font-bold text-emerald-400 font-gaming">R$ 0,00</span>
+                        </div>
+                    </div>
+
+                    <button id="checkout-btn" onclick="processCheckout()" disabled class="w-full bg-slate-800 text-slate-500 font-bold py-3 rounded-lg text-sm tracking-wider uppercase cursor-not-allowed transition-all duration-200 hover:shadow-lg">
+                        Finalizar Pedido
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Modal de Confirmação (Checkout Fictício) -->
+    <div id="checkout-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-6 space-y-5 text-center relative shadow-2xl">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div class="w-16 h-16 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center mx-auto text-emerald-400">
+                <i data-lucide="check-circle-2" class="w-10 h-10"></i>
+            </div>
+
+            <div>
+                <h3 class="text-2xl font-bold font-gaming text-white uppercase">Pedido Simulado com Sucesso!</h3>
+                <p class="text-xs text-slate-400 mt-1">Este é um projeto de simulação escolar.</p>
+            </div>
+
+            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2 text-left text-sm">
+                <div class="flex justify-between">
+                    <span class="text-slate-400">ID de Destino:</span>
+                    <span id="modal-id" class="font-mono text-white font-bold"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-400">Quantidade:</span>
+                    <span id="modal-amount" class="text-yellow-400 font-semibold"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-400">Valor Total:</span>
+                    <span id="modal-total" class="text-emerald-400 font-bold"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-400">Status:</span>
+                    <span class="text-emerald-400 font-medium">Aprovado (Simulação)</span>
+                </div>
+            </div>
+
+            <button onclick="closeModal()" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-2.5 rounded-lg text-sm uppercase transition-colors">
+                Concluir
+            </button>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-6 text-center text-xs text-slate-500 mt-12">
+        <div class="max-w-6xl mx-auto px-4 space-y-2">
+            <p>Projeto acadêmico desenvolvido para fins de demonstração escolar.</p>
+            <p>Garena Free Fire é uma marca registrada de seus respectivos proprietários.</p>
+        </div>
+    </footer>
+
+    <!-- Lógica JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
